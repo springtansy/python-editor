@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python Editor</title>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js"></script>
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #24292e;
+      --keyword: #d73a49;
+      --string: #e67e22; 
+      --comment: #6a737d;
+      --builtin: #005cc5;
+      --line-num-bg: #f8f8f8;
+      --line-num-text: #999;
+      --accent-green: #28a745;
+      --accent-red: #cb2431;
+      --accent-blue: #0366d6;
+    }
+
+    body { font-family: -apple-system, system-ui, sans-serif; margin: 20px; background: #eee; color: #333; }
+    h2 { margin-top: 0; font-weight: 600; }
+
+    .editor-container {
+      display: flex;
+      position: relative;
+      width: 100%;
+      height: 450px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background: var(--bg-color);
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    #line-numbers {
+      width: 45px;
+      padding: 15px 5px;
+      background: var(--line-num-bg);
+      color: var(--line-num-text);
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      text-align: right;
+      user-select: none;
+      border-right: 1px solid #ddd;
+      overflow: hidden;
+    }
+
+    .editor-wrapper {
+      position: relative;
+      flex-grow: 1;
+      height: 100%;
+    }
+
+    #code, #highlighter {
+      margin: 0;
+      padding: 15px;
+      font-family: 'Fira Code', 'Cascadia Code', 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre;
+      word-wrap: normal;
+      overflow-x: auto;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      outline: none;
+      border: none;
+    }
+
+    #code {
+      z-index: 2;
+      background: transparent;
+      color: transparent;
+      caret-color: #333;
+      resize: none;
+    }
+
+    #highlighter {
+      z-index: 1;
+      color: var(--text-color);
+      pointer-events: none;
+    }
+
+    /* Syntax Highlighting */
+    .hl-keyword { color: var(--keyword); font-weight: bold; }
+    .hl-string  { color: var(--string); }
+    .hl-comment { color: var(--comment); font-style: italic; }
+    .hl-builtin { color: var(--builtin); }
+
+    .controls { margin: 15px 0; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    
+    button { 
+      padding: 8px 16px; 
+      cursor: pointer; 
+      border-radius: 4px; 
+      border: 1px solid #ccc; 
+      background: white; 
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    button:hover { background: #f0f0f0; }
+
+    #runBtn { background: var(--accent-green); color: white; border-color: #218838; }
+    #runBtn:hover { background: #218838; }
+    #runBtn:disabled { background: #94d3a2; cursor: wait; }
+
+    #stopBtn { color: var(--accent-red); border-color: #d1d1d1; }
+    
+    .btn-upload { color: var(--accent-blue); }
+
+    .shortcut-hint { font-size: 12px; color: #888; margin-left: 2px; }
+    .spacer { flex-grow: 1; }
+
+    pre#output { 
+      background: #1e1e1e; color: #f0f0f0; padding: 15px; border-radius: 6px; 
+      min-height: 120px; max-height: 300px; overflow-y: auto; font-family: 'Courier New', monospace;
+      border: 1px solid #333; line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Python Editor</h2>
+
+<div class="editor-container">
+  <div id="line-numbers"></div>
+  <div class="editor-wrapper">
+    <div id="highlighter"></div>
+    <textarea id="code" spellcheck="false" wrap="off">print("Hello world!")</textarea>
+  </div>
+</div>
+
+<div class="controls">
+  <button id="runBtn" onclick="runCode()" disabled>Loading...</button>
+  <button id="stopBtn" onclick="resetEngine()">Stop / Reset</button>
+  <span class="shortcut-hint">(Ctrl + Enter)</span>
+  
+  <div class="spacer"></div>
+  
+  <input type="file" id="fileInput" hidden accept=".py,.txt" onchange="handleFileUpload(event)">
+  <button onclick="document.getElementById('fileInput').click()" class="btn-upload">Upload</button>
+  <button onclick="copyCode()">Copy</button>
+  <button onclick="downloadCode()">Download</button>
+  <button onclick="clearEditor()" style="color: #888;">Clear</button>
+</div>
+
+<h3>Output:</h3>
+<pre id="output">Starting Python engine...</pre>
+
+<script>
+  // editor: pyEditorMain, beta: pyEditorBeta, alpha_x: pyEditorAlpha_x
+const LS_val = "pyEditorMain"
+let pyodide;
+const codeArea = document.getElementById("code");
+const highlighter = document.getElementById("highlighter");
+const lineNumbers = document.getElementById("line-numbers");
+const output = document.getElementById("output");
+const runBtn = document.getElementById("runBtn");
+
+// --- 1. HIGHLIGHTER ---
+function applyHighlight(text) {
+    let html = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const patterns = [
+        { name: 'comment', regex: /#.*$/gm },
+        { name: 'string',  regex: /(['"])(?:(?=(\\?))\2.)*?\1/g },
+        { name: 'keyword', regex: /\b(def|class|if|else|elif|for|while|return|import|from|try|except|as|with|in|is|not|and|or|lambda|pass|break|continue)\b/g },
+        { name: 'builtin', regex: /\b(print|input|len|range|str|int|float|list|dict|set|type|sum|max|min)\b/g }
+    ];
+    let parts = [{ text: html, isToken: false }];
+    patterns.forEach(p => {
+        let newParts = [];
+        parts.forEach(part => {
+            if (part.isToken) newParts.push(part);
+            else {
+                let lastIdx = 0, m;
+                while ((m = p.regex.exec(part.text)) !== null) {
+                    if (m.index > lastIdx) newParts.push({ text: part.text.substring(lastIdx, m.index), isToken: false });
+                    newParts.push({ text: `<span class="hl-${p.name}">${m[0]}</span>`, isToken: true });
+                    lastIdx = p.regex.lastIndex;
+                }
+                if (lastIdx < part.text.length) newParts.push({ text: part.text.substring(lastIdx), isToken: false });
+            }
+        });
+        parts = newParts;
+    });
+    return parts.map(p => p.text).join("");
+}
+
+// --- 2. EDITOR SYNC ---
+function updateEditor() {
+    const val = codeArea.value;
+    highlighter.innerHTML = applyHighlight(val) + "\n";
+    
+    const lines = val.split('\n');
+    const displayCount = Math.max(lines.length, 20);
+    let numStr = '';
+    for (let i = 1; i <= displayCount; i++) {
+        numStr += (i > lines.length) ? `<span style="opacity:0.2">${i}</span><br>` : `${i}<br>`;
+    }
+    lineNumbers.innerHTML = numStr;
+    localStorage.setItem(LS_val, val);
+}
+
+codeArea.addEventListener('scroll', () => {
+    highlighter.scrollTop = lineNumbers.scrollTop = codeArea.scrollTop;
+    highlighter.scrollLeft = codeArea.scrollLeft;
+});
+
+codeArea.addEventListener('input', updateEditor);
+
+// --- 3. KEYBOARD SHORTCUTS ---
+const pairs = { '(': ')', '[': ']', '{': '}', '"': '"', "'": "'" };
+
+codeArea.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        runCode();
+        return;
+    }
+
+    const s = this.selectionStart, e_idx = this.selectionEnd, v = this.value;
+    if (pairs[e.key]) {
+        e.preventDefault();
+        this.value = v.substring(0, s) + e.key + pairs[e.key] + v.substring(e_idx);
+        this.selectionStart = this.selectionEnd = s + 1;
+        updateEditor();
+    }
+    if (e.key === 'Tab') {
+        e.preventDefault();
+        this.value = v.substring(0, s) + "    " + v.substring(e_idx);
+        this.selectionStart = this.selectionEnd = s + 4;
+        updateEditor();
+    }
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        const lineStart = v.lastIndexOf("\n", s - 1) + 1;
+        const currentLine = v.substring(lineStart, s);
+        let indent = currentLine.match(/^\s*/)[0];
+        if (currentLine.trimEnd().endsWith(":")) indent += "    ";
+        this.value = v.substring(0, s) + "\n" + indent + v.substring(e_idx);
+        this.selectionStart = this.selectionEnd = s + 1 + indent.length;
+        updateEditor();
+    }
+});
+
+// --- 4. ENGINE LOGIC ---
+async function setupPyodide() {
+  runBtn.disabled = true;
+  try {
+    pyodide = await loadPyodide();
+    window.update_out = (t) => { output.textContent += t; output.scrollTop = output.scrollHeight; };
+    await pyodide.runPythonAsync(`
+import sys, builtins, js, importlib
+def reset_streams():
+    class S:
+        def write(self, s): js.update_out(s)
+        def flush(self): pass
+    sys.stdout = sys.stderr = S()
+reset_streams()
+builtins.input = lambda m="": js.prompt(m)
+
+orig = builtins.__import__
+def guard(n, g=None, l=None, f=(), lev=0):
+    base = n.split('.')[0]
+    if base not in sys.builtin_module_names and base not in sys.modules:
+        if not importlib.util.find_spec(base):
+            raise ImportError(f"\\n[!] Blocked: '{n}' is external.")
+    return orig(n, g, l, f, lev)
+builtins.__import__ = guard
+    `);
+    runBtn.disabled = false;
+    runBtn.textContent = "Run";
+    output.textContent = "Python Ready.\n";
+  } catch (e) { output.textContent = "Error: " + e; }
+}
+  
+async function runCode() {
+    if (runBtn.disabled) return;
+    output.textContent = "";
+    await pyodide.runPythonAsync("reset_streams()");
+    try {
+        await pyodide.runPythonAsync(codeArea.value);
+    } catch (err) {
+        output.textContent += "\n" + err;
+    }
+}
+
+function resetEngine() {
+    if(confirm("Restart Python engine? This stops current code but clears variables.")) {
+        output.textContent = "Restarting engine...";
+        setupPyodide();
+    }
+}
+
+// --- 5. UTILS ---
+function handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        codeArea.value = e.target.result;
+        updateEditor();
+        // Reset file input so same file can be uploaded again if needed
+        event.target.value = '';
+    };
+    reader.readAsText(file);
+}
+
+function copyCode() {
+    navigator.clipboard.writeText(codeArea.value);
+    const b = event.target;
+    const oldText = b.innerText;
+    b.innerText = "✓ Copied!";
+    setTimeout(() => b.innerText = oldText, 1500);
+}
+
+function downloadCode() {
+    let filename = prompt("Filename:", "script.py");
+    if (filename === null) return;
+    if (!filename.endsWith(".py")) filename += ".py";
+    const blob = new Blob([codeArea.value], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+}
+
+function clearEditor() {
+    if(confirm("Delete all code?")) {
+        codeArea.value = "";
+        updateEditor();
+    }
+}
+
+window.onload = () => {
+    const saved = localStorage.getItem(LS_val);
+    if (saved) codeArea.value = saved;
+    updateEditor();
+    setupPyodide();
+};
+</script>
+</body>
+</html>
