@@ -18,19 +18,27 @@ problemSelect.addEventListener("change", () => {
 
 function populateProblems() {
 
+    const selected = problemSelect.value;
+
     problemSelect.innerHTML = "";
 
     for (const key in problems) {
 
         const option = document.createElement("option");
-
         option.value = key;
         option.textContent = problems[key].title[currentLanguage];
 
+        if (key === selected)
+            option.selected = true;
+
         problemSelect.appendChild(option);
-
     }
+}
 
+function formatText(text) {
+    return text
+        .trim()
+        .replace(/\n\s+/g, "\n");
 }
 
 function loadProblem(key) {
@@ -41,16 +49,16 @@ function loadProblem(key) {
         currentProblem.title[currentLanguage];
 
     document.getElementById("problemStatement").textContent =
-        currentProblem.statement[currentLanguage];
+        formatText(currentProblem.statement[currentLanguage]);
 
     document.getElementById("problemInput").textContent =
-        currentProblem.input[currentLanguage].trim();
+        formatText(currentProblem.input[currentLanguage]);
 
     document.getElementById("problemOutput").textContent =
-        currentProblem.output[currentLanguage].trim();
+        formatText(currentProblem.output[currentLanguage]);
 
     document.getElementById("problemConstraints").textContent =
-        currentProblem.constraints[currentLanguage].trim();
+        formatText(currentProblem.constraints[currentLanguage]);
 
 }
 
