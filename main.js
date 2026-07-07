@@ -125,6 +125,8 @@ async function submitSolution() {
 
     output.textContent = "";
 
+    await pyodide.runPythonAsync("use_test_input()");
+
     let passed = 0;
 
     for (const test of currentProblem.tests) {
@@ -140,6 +142,8 @@ async function submitSolution() {
         const expected = normalizeOutput(test.expected);
 
         if (result !== expected) {
+
+            await pyodide.runPythonAsync("use_prompt_input()");
 
             output.textContent =
 `❌ Test ${passed + 1} failed
@@ -159,7 +163,10 @@ ${result}`;
         passed++;
     }
 
-    output.textContent = `✅ Accepted (${passed}/${currentProblem.tests.length} tests)`;
+    await pyodide.runPythonAsync("use_prompt_input()");
+
+    output.textContent =
+        `✅ Accepted (${passed}/${currentProblem.tests.length} tests)`;
 
 }
 
@@ -267,12 +274,23 @@ async function setupPyodide() {
     window.update_out = (t) => { output.textContent += t; output.scrollTop = output.scrollHeight; };
     await pyodide.runPythonAsync(`
 import sys, builtins, js, importlib
+
 def reset_streams():
     class S:
-        def write(self, s): js.update_out(s)
-        def flush(self): pass
+        def write(self, s):
+            js.update_out(s)
+        def flush(self):
+            pass
     sys.stdout = sys.stderr = S()
+
 reset_streams()
+
+# -----------------------
+# Input handling
+# -----------------------
+
+_prompt_input = lambda m="": js.prompt(m)
+
 _input_data = []
 _input_index = 0
 
@@ -281,7 +299,7 @@ def set_input(text):
     _input_data = text.splitlines()
     _input_index = 0
 
-def input(prompt=""):
+def test_input(prompt=""):
     global _input_index
     if _input_index >= len(_input_data):
         raise EOFError("No more input")
@@ -289,15 +307,27 @@ def input(prompt=""):
     _input_index += 1
     return line
 
-builtins.input = input
+def use_test_input():
+    builtins.input = test_input
+
+def use_prompt_input():
+    builtins.input = _prompt_input
+
+use_prompt_input()
+
+# -----------------------
+# Import guard
+# -----------------------
 
 orig = builtins.__import__
+
 def guard(n, g=None, l=None, f=(), lev=0):
-    base = n.split('.')[0]
+    base = n.split(".")[0]
     if base not in sys.builtin_module_names and base not in sys.modules:
         if not importlib.util.find_spec(base):
-            raise ImportError(f"\\n[!] Blocked: '{n}' is external.")
+            raise ImportError(f"\n[!] Blocked: '{n}' is external.")
     return orig(n, g, l, f, lev)
+
 builtins.__import__ = guard
     `);
     runBtn.disabled = false;
