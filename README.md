@@ -8,7 +8,8 @@ The following versions are currently supported and may receive security updates 
 
 | Version   |   Supported        |
 | ----------| ------------------ |
-| v2.1.x    | :white_check_mark: Fully supported |
+| v2.1.1+   | :white_check_mark: Fully supported |
+| v2.1.0    | :x: |
 | v2.0.1    | :warning: Only security updates |
 | v2.0.0    | :x: |
 | v1.0      | :x: |
