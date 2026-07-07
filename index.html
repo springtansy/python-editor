@@ -21,6 +21,35 @@
     </select>
 </div>
 
+<div id="problemPanel" style="display:none; margin-bottom:20px;">
+
+    <div style="display:flex;gap:10px;align-items:center;">
+
+        <label for="problemSelect"><strong>Problem:</strong></label>
+
+        <select id="problemSelect"></select>
+
+    </div>
+
+    <div id="problemInfo" style="margin-top:15px;">
+
+        <h3 id="problemTitle"></h3>
+
+        <p id="problemStatement"></p>
+
+        <h4 id="problemInputTitle">Input</h4>
+        <pre id="problemInput"></pre>
+
+        <h4 id="problemOutputTitle">Output</h4>
+        <pre id="problemOutput"></pre>
+
+        <h4 id="problemConstraintsTitle">Constraints</h4>
+        <pre id="problemConstraints"></pre>
+
+    </div>
+
+</div>
+
 <div class="editor-container">
   <div id="line-numbers"></div>
   <div class="editor-wrapper">
