@@ -325,7 +325,7 @@ def guard(n, g=None, l=None, f=(), lev=0):
     base = n.split(".")[0]
     if base not in sys.builtin_module_names and base not in sys.modules:
         if not importlib.util.find_spec(base):
-            raise ImportError(f"\n[!] Blocked: '{n}' is external.")
+            raise ImportError(f"\\n[!] Blocked: '{n}' is external.")
     return orig(n, g, l, f, lev)
 
 builtins.__import__ = guard
