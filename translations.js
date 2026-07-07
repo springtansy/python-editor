@@ -35,7 +35,7 @@ const translations = {
         failed: "Failed",
         test: "Test",
         allTestsPassed: "All tests passed!",
-        someTestsFailed: "Some tests failed."
+        someTestsFailed: "At least one test failed."
     },
 
     fi: {
@@ -74,7 +74,7 @@ const translations = {
         failed: "Hylätty",
         test: "Testi",
         allTestsPassed: "Kaikki testit hyväksyttiin!",
-        someTestsFailed: "Osa testeistä epäonnistui."
+        someTestsFailed: "Vähintään yksi testi epäonnistui."
     },
 
     sv: {
@@ -113,6 +113,6 @@ const translations = {
         failed: "Underkänt",
         test: "Test",
         allTestsPassed: "Alla tester lyckades!",
-        someTestsFailed: "Vissa tester misslyckades."
+        someTestsFailed: "Minst en av testerna misslyckades."
     }
 };
