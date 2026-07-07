@@ -125,19 +125,41 @@ async function submitSolution() {
 
     output.textContent = "";
 
-    const test = currentProblem.tests[0];
+    let passed = 0;
 
-    await pyodide.runPythonAsync(
-        `set_input(${JSON.stringify(test.input)})`
-    );
+    for (const test of currentProblem.tests) {
 
-    const result = await executePython(codeArea.value);
+        await pyodide.runPythonAsync(
+            `set_input(${JSON.stringify(test.input)})`
+        );
 
-    output.textContent =
-        "Expected:\n" +
-        test.expected +
-        "\n\nGot:\n" +
-        result;
+        const result = normalizeOutput(
+            await executePython(codeArea.value)
+        );
+
+        const expected = normalizeOutput(test.expected);
+
+        if (result !== expected) {
+
+            output.textContent =
+`❌ Test ${passed + 1} failed
+
+Input:
+${test.input}
+
+Expected:
+${expected}
+
+Got:
+${result}`;
+
+            return;
+        }
+
+        passed++;
+    }
+
+    output.textContent = `✅ Accepted (${passed}/${currentProblem.tests.length} tests)`;
 
 }
 
