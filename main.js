@@ -40,6 +40,13 @@ function formatText(text) {
         .trim()
         .replace(/\n\s+/g, "\n");
 }
+function normalizeOutput(text) {
+
+    return text
+        .replace(/\r\n/g, "\n")
+        .trim();
+
+}
 
 function loadProblem(key) {
 
@@ -93,19 +100,44 @@ function applyLanguage() {
     }
 }
 
+async function executePython(code) {
+
+    let captured = "";
+
+    window.update_out = (text) => {
+        captured += text;
+    };
+
+    await pyodide.runPythonAsync("reset_streams()");
+
+    try {
+        await pyodide.runPythonAsync(code);
+    }
+    catch (err) {
+        captured += "\n" + err;
+    }
+
+    return captured;
+
+}
+
 async function submitSolution() {
 
     output.textContent = "";
 
-    for (const test of currentProblem.tests) {
+    const test = currentProblem.tests[0];
 
-        output.textContent +=
-            test.input.replace(/\n/g, "\\n") +
-            " -> " +
-            test.expected +
-            "\n";
+    await pyodide.runPythonAsync(
+        `set_input(${JSON.stringify(test.input)})`
+    );
 
-    }
+    const result = await executePython(codeArea.value);
+
+    output.textContent =
+        "Expected:\n" +
+        test.expected +
+        "\n\nGot:\n" +
+        result;
 
 }
 
@@ -219,7 +251,23 @@ def reset_streams():
         def flush(self): pass
     sys.stdout = sys.stderr = S()
 reset_streams()
-builtins.input = lambda m="": js.prompt(m)
+_input_data = []
+_input_index = 0
+
+def set_input(text):
+    global _input_data, _input_index
+    _input_data = text.splitlines()
+    _input_index = 0
+
+def input(prompt=""):
+    global _input_index
+    if _input_index >= len(_input_data):
+        raise EOFError("No more input")
+    line = _input_data[_input_index]
+    _input_index += 1
+    return line
+
+builtins.input = input
 
 orig = builtins.__import__
 def guard(n, g=None, l=None, f=(), lev=0):
@@ -240,14 +288,15 @@ builtins.__import__ = guard
 }
   
 async function runCode() {
+
     if (runBtn.disabled) return;
+
     output.textContent = "";
-    await pyodide.runPythonAsync("reset_streams()");
-    try {
-        await pyodide.runPythonAsync(codeArea.value);
-    } catch (err) {
-        output.textContent += "\n" + err;
-    }
+
+    const result = await executePython(codeArea.value);
+
+    output.textContent = result;
+
 }
 
 function resetEngine() {
@@ -313,8 +362,10 @@ window.onload = () => {
 
     applyLanguage();
 
-    loadProblem(problemSelect.value);
-
+    if (problemSelect.options.length > 0) {
+        loadProblem(problemSelect.value);
+    }
+    
     updateEditor();
 
     setupPyodide();
