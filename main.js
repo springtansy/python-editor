@@ -143,15 +143,14 @@ async function submitSolution() {
 
             await pyodide.runPythonAsync("use_prompt_input()");
 
-            output.textContent = "❌ Failed";
+            output.textContent = `❌ ${translations[currentLanguage].failed}`;
             return;
         }
     }
 
     await pyodide.runPythonAsync("use_prompt_input()");
 
-    output.textContent = "✅ Passed";
-
+    output.textContent = `✅ ${translations[currentLanguage].passed}`;
 }
 
 languageSelector.addEventListener("change", e => {
