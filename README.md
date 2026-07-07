@@ -10,7 +10,7 @@ The following versions are currently supported and may receive security updates 
 | ----------| ------------------ |
 | v2.1.1+   | :white_check_mark: Fully supported |
 | v2.1.0    | :x: |
-| v2.0.1    | :warning: Only security updates |
+| v2.0.1    | :warning: Security updates only |
 | v2.0.0    | :x: |
 | v1.0      | :x: |
 
