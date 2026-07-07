@@ -93,6 +93,22 @@ function applyLanguage() {
     }
 }
 
+async function submitSolution() {
+
+    output.textContent = "";
+
+    for (const test of currentProblem.tests) {
+
+        output.textContent +=
+            test.input.replace(/\n/g, "\\n") +
+            " -> " +
+            test.expected +
+            "\n";
+
+    }
+
+}
+
 languageSelector.addEventListener("change", e => {
 
     currentLanguage = e.target.value;
