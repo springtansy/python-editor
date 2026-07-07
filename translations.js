@@ -21,7 +21,21 @@ const translations = {
 
         clearConfirm: "Delete all code?",
 
-        filename: "Filename:"
+        filename: "Filename:",
+
+        exercise: "Exercise",
+        statement: "Problem",
+        inputTitle: "Input",
+        outputTitle: "Output",
+        constraintsTitle: "Constraints",
+
+        submit: "Submit",
+        runningTests: "Running tests...",
+        passed: "Passed",
+        failed: "Failed",
+        test: "Test",
+        allTestsPassed: "All tests passed!",
+        someTestsFailed: "Some tests failed."
     },
 
     fi: {
@@ -46,7 +60,21 @@ const translations = {
 
         clearConfirm: "Tyhjennä koko tiedosto?",
 
-        filename: "Tiedoston nimi:"
+        filename: "Tiedoston nimi:",
+
+        exercise: "Tehtävä",
+        statement: "Tehtävänanto",
+        inputTitle: "Syöte",
+        outputTitle: "Tuloste",
+        constraintsTitle: "Rajoitukset",
+
+        submit: "Lähetä",
+        runningTests: "Suoritetaan testejä...",
+        passed: "Hyväksytty",
+        failed: "Hylätty",
+        test: "Testi",
+        allTestsPassed: "Kaikki testit hyväksyttiin!",
+        someTestsFailed: "Osa testeistä epäonnistui."
     },
 
     sv: {
@@ -71,6 +99,20 @@ const translations = {
 
         clearConfirm: "Rensa all kod?",
 
-        filename: "Filnamn:"
+        filename: "Filnamn:",
+
+        exercise: "Uppgift",
+        statement: "Problembeskrivning",
+        inputTitle: "Indata",
+        outputTitle: "Utdata",
+        constraintsTitle: "Begränsningar",
+
+        submit: "Skicka",
+        runningTests: "Kör tester...",
+        passed: "Godkänt",
+        failed: "Underkänt",
+        test: "Test",
+        allTestsPassed: "Alla tester lyckades!",
+        someTestsFailed: "Vissa tester misslyckades."
     }
 };
