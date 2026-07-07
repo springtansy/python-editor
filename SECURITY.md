@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-Here are the versions that are supported, and which may recieve security updates. If your version is not supported, consider upgrading.
+The following versions are currently supported and may receive security updates. If your version is not supported, please upgrade to a supported release.
 
 | Version | Supported          |
 | ------- | ------------------ |
@@ -10,4 +10,6 @@ Here are the versions that are supported, and which may recieve security updates
 
 ## Reporting a Vulnerability
 
-Go to our Security and quality page and make a report. You can expect an answer within 14 days.
+If you discover a security vulnerability, please open a report through the Security tab of this repository.
+
+You can expect an initial response within 14 days. Please do not publicly disclose security vulnerabilities until they have been reviewed.
