@@ -127,8 +127,6 @@ async function submitSolution() {
 
     await pyodide.runPythonAsync("use_test_input()");
 
-    let passed = 0;
-
     for (const test of currentProblem.tests) {
 
         await pyodide.runPythonAsync(
@@ -145,28 +143,14 @@ async function submitSolution() {
 
             await pyodide.runPythonAsync("use_prompt_input()");
 
-            output.textContent =
-`❌ Test ${passed + 1} failed
-
-Input:
-${test.input}
-
-Expected:
-${expected}
-
-Got:
-${result}`;
-
+            output.textContent = "❌ Failed";
             return;
         }
-
-        passed++;
     }
 
     await pyodide.runPythonAsync("use_prompt_input()");
 
-    output.textContent =
-        `✅ Accepted (${passed}/${currentProblem.tests.length} tests)`;
+    output.textContent = "✅ Passed";
 
 }
 
