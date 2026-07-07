@@ -79,6 +79,12 @@ function applyLanguage() {
     document.getElementById("copyBtn").textContent = t.copy;
     document.getElementById("downloadBtn").textContent = t.download;
     document.getElementById("clearBtn").textContent = t.clear;
+    
+    document.getElementById("problemLabel").textContent = t.exercise;
+    document.getElementById("problemStatementTitle").textContent = t.statement;
+    document.getElementById("problemInputTitle").textContent = t.inputTitle;
+    document.getElementById("problemOutputTitle").textContent = t.outputTitle;
+    document.getElementById("problemConstraintsTitle").textContent = t.constraintsTitle;
 
     populateProblems();
 
