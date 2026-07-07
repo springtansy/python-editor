@@ -7,6 +7,48 @@ const lineNumbers = document.getElementById("line-numbers");
 const output = document.getElementById("output");
 const runBtn = document.getElementById("runBtn");
 const languageSelector = document.getElementById("language");
+let currentMode = "editor";
+let currentProblem = null;
+
+const problemSelect = document.getElementById("problemSelect");
+
+function populateProblems() {
+
+    problemSelect.innerHTML = "";
+
+    for (const key in problems) {
+
+        const option = document.createElement("option");
+
+        option.value = key;
+        option.textContent = problems[key].title[currentLanguage];
+
+        problemSelect.appendChild(option);
+
+    }
+
+}
+
+function loadProblem(key) {
+
+    currentProblem = problems[key];
+
+    document.getElementById("problemTitle").textContent =
+        currentProblem.title[currentLanguage];
+
+    document.getElementById("problemStatement").textContent =
+        currentProblem.statement[currentLanguage];
+
+    document.getElementById("problemInput").textContent =
+        currentProblem.input[currentLanguage].trim();
+
+    document.getElementById("problemOutput").textContent =
+        currentProblem.output[currentLanguage].trim();
+
+    document.getElementById("problemConstraints").textContent =
+        currentProblem.constraints[currentLanguage].trim();
+
+}
 
 function applyLanguage() {
 
@@ -25,6 +67,12 @@ function applyLanguage() {
     document.getElementById("copyBtn").textContent = t.copy;
     document.getElementById("downloadBtn").textContent = t.download;
     document.getElementById("clearBtn").textContent = t.clear;
+
+    populateProblems();
+
+    if (currentProblem) {
+        loadProblem(problemSelect.value);
+    }
 }
 
 languageSelector.addEventListener("change", e => {
@@ -236,5 +284,11 @@ window.onload = () => {
     if (translations[currentLanguage]) {
         output.textContent = translations[currentLanguage].starting;
     }
+
+    document.getElementById("problemPanel").style.display = "block";
+
+populateProblems();
+
+loadProblem(problemSelect.value);
 
 };
