@@ -12,6 +12,10 @@ let currentProblem = null;
 
 const problemSelect = document.getElementById("problemSelect");
 
+problemSelect.addEventListener("change", () => {
+    loadProblem(problemSelect.value);
+});
+
 function populateProblems() {
 
     problemSelect.innerHTML = "";
@@ -275,20 +279,15 @@ window.onload = () => {
 
     languageSelector.value = currentLanguage;
 
+    document.getElementById("problemPanel").style.display = "block";
+
     applyLanguage();
+
+    loadProblem(problemSelect.value);
 
     updateEditor();
 
     setupPyodide();
 
-    if (translations[currentLanguage]) {
-        output.textContent = translations[currentLanguage].starting;
-    }
-
-    document.getElementById("problemPanel").style.display = "block";
-
-populateProblems();
-
-loadProblem(problemSelect.value);
-
+    output.textContent = translations[currentLanguage].starting;
 };
