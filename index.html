@@ -35,6 +35,25 @@
       box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     }
 
+    .language-select {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: white;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .language-select:hover {
+      background: #f6f8fa;
+    }
+
+    .language-select:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+    }
+
     #line-numbers {
       width: 45px;
       padding: 15px 5px;
@@ -129,12 +148,16 @@
 </head>
 <body>
 
-<h2 id="title">Python Editor</h2>
+<div style="display:flex;align-items:center;margin-bottom:15px;">
+    <h2 id="title" style="margin:0;">Python Editor</h2>
 
-<select id="language">
-  <option value="sv">Svenska</option>
-  <option value="en">English</option>
-</select>
+    <div class="spacer"></div>
+
+    <select id="language" class="language-select">
+        <option value="sv">Svenska</option>
+        <option value="en">English</option>
+    </select>
+</div>
 
 <div class="editor-container">
   <div id="line-numbers"></div>
