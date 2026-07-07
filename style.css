@@ -136,3 +136,26 @@
       min-height: 120px; max-height: 300px; overflow-y: auto; font-family: 'Courier New', monospace;
       border: 1px solid #333; line-height: 1.4;
     }
+
+#problemPanel {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 20px;
+}
+
+#problemPanel h3,
+#problemPanel h4 {
+    margin-top: 18px;
+    margin-bottom: 8px;
+}
+
+#problemPanel pre {
+    background: #f6f8fa;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+    white-space: pre-wrap;
+    font-family: inherit;
+}
