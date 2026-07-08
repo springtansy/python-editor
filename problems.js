@@ -142,6 +142,53 @@ const problems = {
         ]
     },
 
+    highestNumber: {
+
+        title: {
+            en: "Highest Number",
+            sv: "Högsta talet",
+            fi: "Suurin luku"
+        },
+
+        statement: {
+            en: "Read integers and print the highest of them. ",
+            sv: "Läs av heltal, och skriv ut det högsta.",
+            fi: "Lue kokonaislukuja ja tulosta niistä suurin."
+        },
+
+        input: {
+            en: `The first line contains one integer n.
+            The next n lines contain the integers a₁ - aₙ, one each.`,
+            sv: `Den första raden innehåller ett heltal n.
+            Följande n raderna innehåller heltalen a₁ - aₙ, ett per rad.`,
+            fi: `Ensimmäisellä rivillä on kokonaisluku n.
+            Seuraavilla n riveillä ovat luvut a₁ - aₙ, yksi per rivi.`
+        },
+
+        output: {
+            en: `Print one integer: the highest of a₁ - aₙ.`,
+            sv: `Skriv ut ett heltal: det största av a₁ - aₙ.`,
+            fi: `Tulosta kokonaisluku: suurin luvuista a₁ - aₙ.`
+        },
+
+        constraints: {
+            en: `2 ≤ n ≤ 10
+            0 ≤ aₓ ≤ 10000`,
+            sv: `2 ≤ n ≤ 10
+            0 ≤ aₓ ≤ 10000`,
+            fi: `2 ≤ n ≤ 10
+            0 ≤ aₓ ≤ 10000`
+        },
+
+        answerForm: "expected",
+
+        tests: [
+            { input: "2\n3\n4", expected: "4" },
+            { input: "5\n18\n2\n9001\n9002\n8", expected: "9002" },
+            { input: "10\n0\n1\n3\n5\n3\n90\n18\n82\n82\n90", expected: "90" },
+        ]
+    },
+
     weekDay: {
 
         title: {
