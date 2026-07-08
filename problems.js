@@ -34,6 +34,8 @@ const problems = {
             fi: `-2 × 10⁵ < a, b < 2 × 10⁵`
         },
 
+        answerForm: "expected",
+
         tests: [
             { input: "0\n0\n", expected: "0" },
             { input: "1\n2\n", expected: "3" },
@@ -81,6 +83,8 @@ const problems = {
             fi: `1 ≤ a, b ≤ 2000`
         },
 
+        answerForm: "expected",
+
         tests: [
             { input: "1\n1\n", expected: "1" },
             { input: "3\n2\n", expected: "6" },
@@ -125,6 +129,8 @@ const problems = {
             fi: `1 ≤ n ≤ 100`
         },
 
+        answerForm: "expected",
+
         tests: [
             { input: "1\n", expected: "1" },
             { input: "5\n", expected: "1\n2\n3\n4\n5" },
@@ -133,6 +139,49 @@ const problems = {
             { input: "23\n", expected: "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23" },
             { input: "67\n", expected: "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n32\n33\n34\n35\n36\n37\n38\n39\n40\n41\n42\n43\n44\n45\n46\n47\n48\n49\n50\n51\n52\n53\n54\n55\n56\n57\n58\n59\n60\n61\n62\n63\n64\n65\n66\n67" },
             { input: "100\n", expected: "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n32\n33\n34\n35\n36\n37\n38\n39\n40\n41\n42\n43\n44\n45\n46\n47\n48\n49\n50\n51\n52\n53\n54\n55\n56\n57\n58\n59\n60\n61\n62\n63\n64\n65\n66\n67\n68\n69\n70\n71\n72\n73\n74\n75\n76\n77\n78\n79\n80\n81\n82\n83\n84\n85\n86\n87\n88\n89\n90\n91\n92\n93\n94\n95\n96\n97\n98\n99\n100" },
+        ]
+    },
+
+    weekDay: {
+
+        title: {
+            en: "Weekday",
+            sv: "Veckodag",
+            fi: "Viikonpäivä"
+        },
+
+        statement: {
+            en: "Find the weekday for a certain date.",
+            sv: "Ta reda på veckodagen för ett visst datum.",
+            fi: "Selvitä tietylle päivämäärälle viikonpäivä."
+        },
+
+        input: {
+            en: `The first line contains the date in day-month-year -format, with dots in between.`,
+            sv: `Den första raden innehåller datumet i dag-månad-år -format, med punkter emellan.`,
+            fi: `Ensimmäisellä rivillä on päivämäärä päivä-kuukausi-vuosi -formaatissa, erotettu pisteillä.`
+        },
+
+        output: {
+            en: `Print out the corresponding weekday.`,
+            sv: `Skriv ut den motsvarande veckodagen.`,
+            fi: `Tulosta vastaava viikonpäivä.`
+        },
+
+        constraints: {
+            en: `The year is between 1800 and 2300.`,
+            sv: `Årtalet är mellan 1800 och 2300.`,
+            fi: `Vuosi on välillä 1800-2300.`
+        },
+
+        answerForm: "expectedAnswers",
+
+        tests: [
+            { input: "8.7.2026\n", expectedAnswers: ["keskiviikko","onsdag","wednesday"]},
+            { input: "1.1.2000\n", expectedAnswers: ["lauantai","lördag","saturday"]},
+            { input: "29.2.1804\n", expectedAnswers: ["keskiviikko","onsdag","wednesday"]},
+            { input: "31.10.2292\n", expectedAnswers: ["maanantai","måndag","monday"]},
+            { input: "1.3.2096\n", expectedAnswers: ["torstai","torsdag","thursday"]},
         ]
     },
 }
