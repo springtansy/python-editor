@@ -86,6 +86,7 @@ function applyLanguage() {
     document.getElementById("copyBtn").textContent = t.copy;
     document.getElementById("downloadBtn").textContent = t.download;
     document.getElementById("clearBtn").textContent = t.clear;
+    document.getElementById("submitBtn").textContent = t.submit;
     
     document.getElementById("problemLabel").textContent = t.exercise;
     document.getElementById("problemStatementTitle").textContent = t.statement;
