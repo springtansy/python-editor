@@ -136,11 +136,23 @@ async function submitSolution() {
 
         const result = normalizeOutput(
             await executePython(codeArea.value)
-        );
+        ).toLowerCase();
 
-        const expected = normalizeOutput(test.expected);
+        let passed = false;
 
-        if (result !== expected) {
+        if ("expected" in test) {
+
+            passed = result === normalizeOutput(test.expected).toLowerCase();
+
+        } else if ("expectedAnswers" in test) {
+
+            passed = test.expectedAnswers.some(answer =>
+                result === normalizeOutput(answer).toLowerCase()
+            );
+
+        }
+
+        if (!passed) {
 
             await pyodide.runPythonAsync("use_prompt_input()");
 
