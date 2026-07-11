@@ -8,14 +8,10 @@ The following versions are currently supported and may receive security updates 
 
 | Version         |   Supported        |
 | ----------      | ------------------ |
-| v2.2.1+         | 🟢 Fully supported |
-| v2.2.0          | 🟡 Partially supported |
+| v2.2.2+         | 🟢 Fully supported |
 | v2.1.1          | 🟡 Partially supported |
-| v2.1.0          | 🔴 |
-| v2.0.x          | 🔴 |
-| v1.0            | 🔴 |
 
-If you cannot find your version above, it is most likely not supported.
+If you cannot find your version above, it is not supported.
 
 For reporting Security Vulnerabilities, please check the `SECURITY.md` file for details.
 

@@ -6,13 +6,10 @@ The following versions are currently supported and may receive security updates.
 
 | Version   |   Supported        |
 | ----------| ------------------ |
-| v2.2.x    | :white_check_mark: |
-| v2.1.1    | :white_check_mark: |
-| v2.1.0    | :x: |
-| v2.0.x    | :x: |
-| v1.0      | :x: |
+| v2.2.2+   | 🟢 |
+| v2.1.1    | 🟢 |
 
-If you cannot find your version above, it is most likely not supported.
+If you cannot find your version above, it is not supported.
 
 ## Reporting a Vulnerability
 

@@ -156,8 +156,7 @@ async function submitSolution() {
 
             await pyodide.runPythonAsync("use_prompt_input()");
 
-            output.textContent = `
-❌ ${translations[currentLanguage].failed}
+            output.textContent = `❌ ${translations[currentLanguage].failed}
 ${translations[currentLanguage].someTestsFailed}
 `;
             return;
@@ -166,8 +165,7 @@ ${translations[currentLanguage].someTestsFailed}
 
     await pyodide.runPythonAsync("use_prompt_input()");
 
-    output.textContent = `
-✅ ${translations[currentLanguage].passed}
+    output.textContent = `✅ ${translations[currentLanguage].passed}
 ${translations[currentLanguage].allTestsPassed}
 `;
 }
