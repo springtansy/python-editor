@@ -6,9 +6,8 @@ The following versions are currently supported and may receive security updates.
 
 | Version   |   Supported        |
 | ----------| ------------------ |
-| v2.2.1+   | 🟢 Fully supported |
-| v2.2.0    | 🟠 Security updates only |
-| v2.1.1    | 🟡 Partially supported |
+| v2.2.x    | 🟢 |
+| v2.1.1    | 🟢 |
 
 If you cannot find your version above, it is not supported.
 
