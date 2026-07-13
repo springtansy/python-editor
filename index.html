@@ -177,7 +177,7 @@
   
   <input type="file" id="fileInput" hidden accept=".py,.txt" onchange="handleFileUpload(event)">
   <button id="uploadBtn" onclick="document.getElementById('fileInput').click()" class="btn-upload">Upload</button>
-  <button id="copyBtn" onclick="copyCode()">Copy</button>
+  <button id="copyBtn" onclick="copyCode(this)">Copy</button>
   <button id="downloadBtn" onclick="downloadCode()">Download</button>
   <button id="clearBtn" onclick="clearEditor()" style="color: #888;">Clear</button>
 </div>
@@ -423,7 +423,7 @@ builtins.__import__ = guard
 }
   
 async function runCode() {
-    if (runBtn.disabled) return;
+    if (runBtn.disabled || !pyodide) return;
     output.textContent = "";
     await pyodide.runPythonAsync("reset_streams()");
     try {
@@ -456,12 +456,19 @@ function handleFileUpload(event) {
     reader.readAsText(file);
 }
 
-function copyCode() {
-    navigator.clipboard.writeText(codeArea.value);
-    const b = event.target;
-    const oldText = b.innerText;
-    b.innerText = translations[currentLanguage].copied;
-    setTimeout(() => b.innerText = oldText, 1500);
+async function copyCode(button) {
+    try {
+        await navigator.clipboard.writeText(codeArea.value);
+
+        const oldText = button.innerText;
+        button.innerText = translations[currentLanguage].copied;
+
+        setTimeout(() => {
+            button.innerText = oldText;
+        }, 1500);
+    } catch (err) {
+        alert("Failed to copy.");
+    }
 }
 
 function downloadCode() {
@@ -505,7 +512,7 @@ window.onload = () => {
 };
 </script>
 <footer style="margin-top:20px;padding:16px 0;text-align:center;font-size:12px;color:#6a737d;border-top:1px solid #e1e4e8;">
-  Python Editor v2.1.1 • Released under the
+  Python Editor v2.1.2 • Released under the
   <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">MIT License</a>
   •
   <a href="https://github.com/springtansy/python-editor" target="_blank" rel="noopener">
