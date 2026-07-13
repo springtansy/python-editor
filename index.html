@@ -69,7 +69,7 @@
   
   <input type="file" id="fileInput" hidden accept=".py,.txt" onchange="handleFileUpload(event)">
   <button id="uploadBtn" onclick="document.getElementById('fileInput').click()" class="btn-upload">Upload</button>
-  <button id="copyBtn" onclick="copyCode()">Copy</button>
+  <button id="copyBtn" onclick="copyCode(this)">Copy</button>
   <button id="downloadBtn" onclick="downloadCode()">Download</button>
   <button id="clearBtn" onclick="clearEditor()" style="color: #888;">Clear</button>
 </div>
