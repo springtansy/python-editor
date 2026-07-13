@@ -374,12 +374,19 @@ function handleFileUpload(event) {
     reader.readAsText(file);
 }
 
-function copyCode() {
-    navigator.clipboard.writeText(codeArea.value);
-    const b = event.target;
-    const oldText = b.innerText;
-    b.innerText = translations[currentLanguage].copied;
-    setTimeout(() => b.innerText = oldText, 1500);
+async function copyCode(button) {
+    try {
+        await navigator.clipboard.writeText(codeArea.value);
+
+        const oldText = button.innerText;
+        button.innerText = translations[currentLanguage].copied;
+
+        setTimeout(() => {
+            button.innerText = oldText;
+        }, 1500);
+    } catch (err) {
+        alert("Failed to copy.");
+    }
 }
 
 function downloadCode() {
