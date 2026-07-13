@@ -8,8 +8,8 @@ The following versions are currently supported and may receive security updates 
 
 | Version         |   Supported        |
 | ----------      | ------------------ |
-| v2.2.2+         | 🟢 Fully supported |
-| v2.1.1          | 🟡 Partially supported |
+| v2.2.3+         | 🟢 Fully supported |
+| v2.1.2          | 🟠 Security fixes only |
 
 If you cannot find your version above, it is not supported.
 
