@@ -1,6 +1,7 @@
 const CACHE_NAME = 'springtansy/python-editor';
 const CDN_CACHE_NAME = 'springtansy/pyodide-cdn-v1';
 
+// Local project assets
 const LOCAL_ASSETS = [
   './',
   './index.html',
@@ -10,25 +11,36 @@ const LOCAL_ASSETS = [
   './translations.js'
 ];
 
+// Pyodide CDN binaries 
 const PYODIDE_BASE = 'https://cdn.jsdelivr.net/pyodide/v314.0.2/full/';
 const PYODIDE_ASSETS = [
   PYODIDE_BASE + 'pyodide.js',
   PYODIDE_BASE + 'pyodide.asm.js',
   PYODIDE_BASE + 'pyodide.asm.wasm',
-  PYODIDE_BASE + 'python_stdlib.zip',
-  PYODIDE_BASE + 'pyodide-lock.json'
+  PYODIDE_BASE + 'python_stdlib.zip'
 ];
 
+// 1. Install Event: Resilient pre-caching
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    Promise.all([
-      caches.open(CACHE_NAME).then((cache) => cache.addAll(LOCAL_ASSETS)),
-      caches.open(CDN_CACHE_NAME).then((cache) => 
-        cache.addAll(PYODIDE_ASSETS).catch((err) => {
-          console.warn('Pre-caching some CDN files failed, will fallback to dynamic caching:', err);
-        })
-      )
-    ])
+    (async () => {
+      const localCache = await caches.open(CACHE_NAME);
+      await localCache.addAll(LOCAL_ASSETS);
+
+      const cdnCache = await caches.open(CDN_CACHE_NAME);
+      await Promise.all(
+        PYODIDE_ASSETS.map(url =>
+          fetch(url)
+            .then(response => {
+              if (response.ok) {
+                return cdnCache.put(url, response);
+              }
+              console.warn(`Skipped caching ${url}: HTTP ${response.status}`);
+            })
+            .catch(err => console.warn(`Failed to pre-cache ${url}:`, err))
+        )
+      );
+    })()
   );
   self.skipWaiting();
 });
