@@ -421,7 +421,29 @@ window.onload = () => {
 
     applyLanguage();
 
-    if (problemSelect.options.length > 0) {
+    // Check for ?problem= parameter in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const problemParam = urlParams.get('problem');
+    const problemKeys = Object.keys(problems);
+    let targetKey = null;
+
+    if (problemParam) {
+        const index = parseInt(problemParam, 10);
+        // Check if index is a valid 1-based number (e.g., 1, 2, 3...)
+        if (!isNaN(index) && index >= 1 && index <= problemKeys.length) {
+            targetKey = problemKeys[index - 1];
+        } 
+        // Check if key directly matches a problem name (e.g., ?problem=rectangleArea)
+        else if (problems[problemParam]) {
+            targetKey = problemParam;
+        }
+    }
+
+    // Load URL requested problem if found, otherwise default to first select option
+    if (targetKey) {
+        problemSelect.value = targetKey;
+        loadProblem(targetKey);
+    } else if (problemSelect.options.length > 0) {
         loadProblem(problemSelect.value);
     }
     
