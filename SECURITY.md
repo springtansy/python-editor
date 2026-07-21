@@ -6,10 +6,13 @@ The following versions are currently supported and may receive security updates.
 
 | Version   |   Supported        |
 | ----------| ------------------ |
-| v2.2.3+   | 🟢 |
+| v2.3.0+   | 🟢 |
+| v2.2.3    | 🟢 |
 | v2.1.2    | 🟢 |
 
 If you cannot find your version above, it is not supported.
+
+This `SECURITY.md` file may be outdated. For the latest version of the file, check it out [here](https://github.com/springtansy/python-editor?tab=security-ov-file).
 
 ## Reporting a Vulnerability
 

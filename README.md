@@ -8,7 +8,8 @@ The following versions are currently supported and may receive security updates 
 
 | Version         |   Supported        |
 | ----------      | ------------------ |
-| v2.2.3+         | 🟢 Fully supported |
+| v2.3.0+         | 🟢 Fully supported |
+| v2.2.3          | 🟡 Partially supported |
 | v2.1.2          | 🟠 Security fixes only |
 
 If you cannot find your version above, it is not supported.
@@ -20,6 +21,8 @@ For reporting Security Vulnerabilities, please check the `SECURITY.md` file for 
 This project uses [Pyodide](https://pyodide.org) to run Python locally in the browser.
 
 Pyodide is licensed under the Mozilla Public License 2.0 (MPL-2.0), and is not included under this project's license.
+
+This `README.md` file may be outdated. For the latest version of the file, check it out [here](https://github.com/springtansy/python-editor?tab=readme-ov-file).
 
 ## License
 
