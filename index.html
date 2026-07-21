@@ -88,5 +88,20 @@
 <script src="translations.js"></script>
 <script src="problems.js"></script>
 <script src="main.js"></script>
+
+<script src="translations.js"></script>
+<script src="problems.js"></script>
+<script src="main.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(() => console.log('Offline Python Service Worker registered.'))
+        .catch((err) => console.error('Service Worker registration error:', err));
+    });
+  }
+</script>
+
 </body>
 </html>
