@@ -419,27 +419,33 @@ window.onload = () => {
 
     document.getElementById("problemPanel").style.display = "block";
 
+    // 1. Populate dropdown options first so values exist in the DOM
     applyLanguage();
 
-    // Check for ?problem= parameter in the URL
+    // 2. Extract ?problem= parameter from URL
     const urlParams = new URLSearchParams(window.location.search);
     const problemParam = urlParams.get('problem');
+    
+    // Get array of string keys: ['sumProblem', 'rectangleArea', 'weekDay', ...]
     const problemKeys = Object.keys(problems);
     let targetKey = null;
 
     if (problemParam) {
-        const index = parseInt(problemParam, 10);
-        // Check if index is a valid 1-based number (e.g., 1, 2, 3...)
-        if (!isNaN(index) && index >= 1 && index <= problemKeys.length) {
-            targetKey = problemKeys[index - 1];
+        // Convert input string to a number ("1" -> 1)
+        const num = Number(problemParam);
+
+        // If it's a valid number between 1 and total problems
+        if (!isNaN(num) && num >= 1 && num <= problemKeys.length) {
+            // Map 1-based index (e.g., 1) to array index 0 -> 'sumProblem'
+            targetKey = problemKeys[num - 1];
         } 
-        // Check if key directly matches a problem name (e.g., ?problem=rectangleArea)
+        // If it's already a direct string key (e.g. 'sumProblem')
         else if (problems[problemParam]) {
             targetKey = problemParam;
         }
     }
 
-    // Load URL requested problem if found, otherwise default to first select option
+    // 3. Select and load problem by string key
     if (targetKey) {
         problemSelect.value = targetKey;
         loadProblem(targetKey);
