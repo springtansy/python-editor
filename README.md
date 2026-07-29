@@ -4,7 +4,7 @@ This is a browser-based python editor, which allows users to both edit and run P
 
 ## Supported Versions
 
-The following versions are currently supported and may receive security updates and/or bug fixes. New features will only be added to the latest minor version and security updates/bug fixes to the minor version's latest patch release.
+The following versions are currently supported and may receive security updates and/or bug fixes. New features will only be added to the latest minor version and security updates/bug fixes to the minor version's latest patch release, unless otherwise specified.
 
 | Version      |   Supported        |
 | ----------   | ------------------ |
