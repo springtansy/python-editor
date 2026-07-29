@@ -4,13 +4,13 @@ This is a browser-based python editor, which allows users to both edit and run P
 
 ## Supported Versions
 
-The following versions are currently supported and may receive security updates and/or bug fixes. New features will only be added to the latest minor version.
+The following versions are currently supported and may receive security updates and/or bug fixes. New features will only be added to the latest minor version and security updates/bug fixes to the minor version's latest patch release, unless otherwise specified.
 
-| Version         |   Supported        |
-| ----------      | ------------------ |
-| v2.3.0+         | 🟢 Fully supported |
-| v2.2.3          | 🟡 Partially supported |
-| v2.1.2          | 🟠 Security fixes only |
+| Version      |   Supported        |
+| ----------   | ------------------ |
+| v2.3         | 🟢 Fully supported     |
+| v2.2         | 🟡 Partially supported |
+| v2.1         | 🟠 Security fixes only |
 
 If you cannot find your version above, it is not supported.
 
