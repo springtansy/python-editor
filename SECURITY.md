@@ -2,13 +2,12 @@
 
 ## Supported Versions
 
-The following versions are currently supported and may receive security updates. If your version is not supported, please upgrade to a supported release.
+The following versions are currently supported and may receive security updates. If your version is not supported, please upgrade to a supported release. Security updates will only be added to the minor version's latest patch release, unless otherwise specified.
 
-| Version   |   Supported        |
-| ----------| ------------------ |
-| v2.3.0+   | 🟢 |
-| v2.2.3    | 🟢 |
-| v2.1.2    | 🟢 |
+
+| Version     |   Supported        |
+| ----------  | ------------------ |
+| v2.1 - v2.3 | 🟢 Supported |
 
 If you cannot find your version above, it is not supported.
 
