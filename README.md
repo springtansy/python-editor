@@ -16,6 +16,18 @@ If you cannot find your version above, it is not supported.
 
 For reporting Security Vulnerabilities, please check the `SECURITY.md` file for details.
 
+## Branches
+
+This table contains the branches used in this project, and their purposes.
+
+| Branch       |   Purpose        |
+| ----------   | ------------------ |
+| release      | The branch that contains the latest release.     |
+| stable       | The branch that contains the latest stable* version, and is the default branch. |
+| development  | The branch that contains the latest unstable version, and is used for testing and development purposes. |
+
+*stable, not released, but has the latest versions of important documents.
+
 ## Notes
 
 This project uses [Pyodide](https://pyodide.org) to run Python locally in the browser.
