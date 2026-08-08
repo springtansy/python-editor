@@ -22,7 +22,7 @@ This table contains the branches used in this project, and their purposes.
 
 | Branch       |   Purpose        |
 | ----------   | ------------------ |
-| release      | The branch that contains the latest release.     |
+| release      | The branch that contains the latest release. This is also the branch the Github Pages site is hosted from. |
 | stable       | The branch that contains the latest stable* version, and is the default branch. |
 | development  | The branch that contains the latest unstable version, and is used for testing and development purposes. |
 
