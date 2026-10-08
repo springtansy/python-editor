@@ -8,6 +8,7 @@ The following versions are currently supported and may receive security updates.
 | Version     |   Supported        |
 | ----------  | ------------------ |
 | v2.1 - v2.3 | 🟢 Supported |
+| v2.0 | 🔴 Not supported |
 
 If you cannot find your version above, it is not supported.
 
