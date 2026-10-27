@@ -231,43 +231,4 @@ const problems = {
             { input: "1.3.2096\n", expectedAnswers: ["torstai","torsdag","thursday"]},
         ]
     },
-
-    testA: {
-
-        title: {
-            en: "test",
-            sv: "test",
-            fi: "test"
-        },
-
-        statement: {
-            en: "-",
-            sv: "-",
-            fi: "-"
-        },
-
-        input: {
-            en: `-`,
-            sv: `-`,
-            fi: `-`
-        },
-
-        output: {
-            en: `-`,
-            sv: `-`,
-            fi: `-`
-        },
-
-        constraints: {
-            en: `-`,
-            sv: `-`,
-            fi: `-`
-        },
-
-        answerForm: "expectedA",
-
-        tests: [
-            { input: "5\n10\n##..##...#\n#....##..#\n#.#......#\n.###..##.#\n......##..\n\n.......##.\n.####..##.\n..........\n.###..###.\n..#...#...\n", expected:"##........\n.##.......\n..........\n..........\n.........."},
-        ]
-    },
 }
